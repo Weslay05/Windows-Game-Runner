@@ -1,21 +1,19 @@
-# Windows Game Executor v1.1
+# Windows Game Executor v1.1.2
 # WinePrefix is in Specified path as filename of script
 # GAME is for when the first best executable isn't right
 #! /run/current-system/sw/bin/bash
 
-GAME_EXE=""
+# WINEPREFIX
 PREFIX_DIR="/media/SanDisk-btrfs/Volume/Games/wine-prefix"
 
+# BASH Aliases
 ScDIR=$( dirname "${BASH_SOURCE[0]}" )
+ScNAME=$( basename "${BASH_SOURCE[0]%.*}" )
 
-if [ -n "$GAME" ]; then
-    GAME_PATH=$( find "$ScDIR" -name "*.exe" | head -n1 )
-    echo "GAME not defined, running first best executable"
-else
-    GAME_PATH=$ScDIR/$GAME_EXE
-fi
+# Executable PATH
+GAME_PATH="$ScDIR/$ScNAME.exe"
 
-export WINEPREFIX="$PREFIX_DIR/$( basename "${BASH_SOURCE[0]%.*}" )"
+export WINEPREFIX="$PREFIX_DIR/$ScNAME"
 
 # ---------------
 # other Variables
