@@ -1,4 +1,4 @@
-# Windows Game Executor v1.1.4
+# Windows Game Executor v1.2
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 #! /run/current-system/sw/bin/bash
