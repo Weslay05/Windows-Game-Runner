@@ -1,31 +1,37 @@
-# Windows Game Executor v2.0
+#! /run/current-system/sw/bin/bash
+
+# Windows Game Executor v2.2
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
-#! /run/current-system/sw/bin/bash
+
 ScDIR=$( dirname "${BASH_SOURCE[0]}" )
 ScNAME=$( basename "${BASH_SOURCE[0]%.sh}" )
 
 #! Important
 
-PROTON="GE-Proton10-32"
-WINE="wine-11.4-amd64" # Optional and not used when only umu-run
-DXVK="dxvk-gplasync-v2.7.1-1"
-VKD3D="vkd3d-proton-3.0"
+export PROTON_NAME="GE-Proton10-32"
+export WINE_NAME="wine-11.4-amd64" # Optional and not used when only umu-run
+export DXVK_NAME="dxvk-gplasync-v2.7.1-1"
+export VKD3D_NAME="vkd3d-proton-3.0"
 
 # Async Shader Compilation ( Only use in Singleplayer Games ) 
 # Only Activates with gplasync (async dxvk build)
 export DXVK_ASYNC=1
 
-WINEPREFIX_DIR="/media/SanDisk-btrfs/Volume/Games/wine-prefix"
-COMPABILITY_TOOLS_PATH="/media/SanDisk-btrfs/Volume/Games/.compatibilitytools.d"
+export WINEPREFIX_DIR="/media/SanDisk-btrfs/Volume/Games/wine-prefix"
+export COMPABILITY_TOOLS_PATH="/media/SanDisk-btrfs/Volume/Games/.compatibilitytools.d"
 
 # Path Definitions
-export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON"
-export DXVK_OVERRIDE_PATH="$COMPABILITY_TOOLS_PATH/$DXVK"
-export VKD3D_PATH="$COMPABILITY_TOOLS_PATH/$VKD3D"
-GAME_PATH="$ScDIR/$ScNAME"
+
+export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON_NAME"
+
+export DXVK_OVERRIDE_PATH="$COMPABILITY_TOOLS_PATH/$DXVK_NAME"
+export VKD3D_PATH="$COMPABILITY_TOOLS_PATH/$VKD3D_NAME"
+
+export GAME_PATH="$ScDIR/$ScNAME"
+
 export WINEPREFIX="$WINEPREFIX_DIR/$ScNAME"
-WINE="$COMPABILITY_TOOLS_PATH/$WINE/bin/wine"
+export PATH="$COMPABILITY_TOOLS_PATH/$WINE_NAME/bin":$PATH
 
 # ---------------
 #! other Variables
@@ -65,4 +71,4 @@ export WINE_GECKO_CACHE_DIR="$WINEPREFIX/files/cache/gecko"
 echo "Starting: ( $GAME_PATH )"
 
 umu-run "$GAME_PATH"
-# steam-run $WINE "$GAME_PATH"
+# steam-run wine "$GAME_PATH"
