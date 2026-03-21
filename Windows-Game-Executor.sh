@@ -1,6 +1,6 @@
 #! /run/current-system/sw/bin/bash
 
-# Windows Game Executor v2.2
+# Windows Game Executor v2.2.1
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
@@ -52,7 +52,8 @@ export DXVK_LOG_LEVEL=error
 
 # Performance/Display
 export DXVK_HUD=0               # 1 = show FPS and Vulkan stats (0 = off)
-export WINE_FULLSCREEN_FSR=1    # Enable AMD FidelityFX Super Resolution (FSR)
+export VK_PRESENT_MODE="immediate" # [ "immediate" (no_sync), "mailbox" (fast vsync) , "fifo" (enforced vsync), "FIFO_RELAXED", "SHARED_DEMAND_REFRESH", "SHARED_CONTINUOUS_REFRESH", "FIFO_LATEST_READY" ]
+export WINE_FULLSCREEN_FSR=0    # Enable AMD FidelityFX Super Resolution (FSR)
 export WINEESYNC=1
 export WINEFSYNC=1
 
