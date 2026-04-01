@@ -1,20 +1,20 @@
 #! /run/current-system/sw/bin/bash
 
-# Windows Game Executor v2.2.2
+# Windows Game Executor v2.2.3
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
-ScDIR=$( dirname "${BASH_SOURCE[0]}" )
-ScNAME=$( basename "${BASH_SOURCE[0]%.sh}" )
+ScDIR=$(dirname "${BASH_SOURCE[0]}")
+ScNAME=$(basename "${BASH_SOURCE[0]%.sh}")
 
 #! Important
 
-export PROTON_NAME="GE-Proton10-32"
+export PROTON_NAME="steam/proton 10.0-4"
 export WINE_NAME="wine-11.4-amd64" # Optional and not used when only umu-run
 export DXVK_NAME="dxvk-gplasync-v2.7.1-1"
 export VKD3D_NAME="vkd3d-proton-3.0"
 
-# Async Shader Compilation ( Only use in Singleplayer Games ) 
+# Async Shader Compilation ( Only use in Singleplayer Games )
 # Only Activates with gplasync (async dxvk build)
 export DXVK_ASYNC=1
 
@@ -41,7 +41,7 @@ export WINEARCH=win64
 export PROTON_VERB=waitforexitandrun
 
 # UMU Settings
-export GAMEID=umu-default   # Game ID for extra umu tweaks
+export GAMEID=umu-default # Game ID for extra umu tweaks
 export UMU_LOG=1
 export DXVK_LOG_LEVEL=error
 # export STORE=none
@@ -51,17 +51,17 @@ export DXVK_LOG_LEVEL=error
 #export PROTON_EAC_RUNTIME="$HOME/.local/share/lutris/runtime/eac_runtime"           # Easy AntiCheat Support
 
 # Performance/Display
-export DXVK_HUD=0               # 1 = show FPS and Vulkan stats (0 = off)
+export DXVK_HUD=0                     # 1 = show FPS and Vulkan stats (0 = off)
 export VK_PRESENT_MODE="fifo_relaxed" # [ "IMMEDIATE" (no_sync), "MAILBOX" (fast vsync) , "fifo" (enforced vsync), "fifo_relaxed", "SHARED_DEMAND_REFRESH", "SHARED_CONTINUOUS_REFRESH", "FIFO_LATEST_READY" ]
-export WINE_FULLSCREEN_FSR=0    # Enable AMD FidelityFX Super Resolution (FSR)
+export WINE_FULLSCREEN_FSR=0          # Enable AMD FidelityFX Super Resolution (FSR)
 export WINEESYNC=1
 export WINEFSYNC=1
 
 # DirectX/DLL
 # export WINEDLLOVERRIDES="d3d11=n,builtin;dxgi=n,builtin" # Use Protons build in Directx
-export PROTON_DXVK_D3D8=1           # Force Directx8 games to use DXVK
-export VKD3D_CONFIG=async           # Async shader compiling for Direct3D 12 games
-export WINE_LARGE_ADDRESS_AWARE=1   # Allow >2GB RAM in 32-bit mode
+export PROTON_DXVK_D3D8=1                       # Force Directx8 games to use DXVK
+export VKD3D_CONFIG=async                       # Async shader compiling for Direct3D 12 games
+export WINE_LARGE_ADDRESS_AWARE=1               # Allow >2GB RAM in 32-bit mode
 export WINEDLLOVERRIDES="winemenubuilder.exe=d" # Disable Desktop Menu Links
 
 # Cache
