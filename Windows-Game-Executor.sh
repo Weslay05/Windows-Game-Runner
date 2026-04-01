@@ -1,6 +1,6 @@
 #! /run/current-system/sw/bin/bash
 
-# Windows Game Executor v2.2.3
+# Windows Game Executor v2.3
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
@@ -9,8 +9,8 @@ ScNAME=$(basename "${BASH_SOURCE[0]%.sh}")
 
 #! Important
 
-export PROTON_NAME="steam/proton 10.0-4"
-export WINE_NAME="wine-11.4-amd64" # Optional and not used when only umu-run
+export PROTON_NAME="steam/Proton 10.0-4" # Case Sensitive
+export WINE_NAME="wine-11.4-amd64"       # Optional and not used when only umu-run
 export DXVK_NAME="dxvk-gplasync-v2.7.1-1"
 export VKD3D_NAME="vkd3d-proton-3.0"
 
