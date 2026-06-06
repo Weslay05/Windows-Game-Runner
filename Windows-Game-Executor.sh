@@ -1,4 +1,4 @@
-#! /run/current-system/sw/bin/bash
+#!/usr/bin/env bash
 
 # Windows Game Executor v2.4
 # WinePrefix is in Specified path as filename of script
