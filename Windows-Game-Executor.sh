@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Windows Game Executor v2.6.2
+# Windows Game Executor v2.7.0
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
@@ -12,7 +12,7 @@ ScNAME=$(basename "${BASH_SOURCE[0]%.sh}")
 # --- Versioning & Prefix ---
 # ---------------------------
 
-export PROTON_NAME="steam/Proton 10.0-4" # Case Sensitive
+export PROTON_NAME="proton-cachyos-11.0_2026-07-03_slr-x86_64" # Case Sensitive
 #export DXVK_NAME="github/dxvk/dxvk-3.0"
 #export VKD3D_NAME="vkd3d-proton-3.0.1"
 
@@ -52,8 +52,10 @@ export WINE_GECKO_CACHE_DIR="$WINEPREFIX/files/cache/gecko"
 # ---------------
 
 #export PROTON_ENABLE_WAYLAND=1
-export PROTON_ENABLE_HDR=1
-export ENABLE_HDR_WSI=1
+
+# Doesn't always work
+#export PROTON_ENABLE_HDR=1
+#export ENABLE_HDR_WSI=1
 
 # HUD
 #export PROTON_DLSS_INDICATOR=1
@@ -73,25 +75,25 @@ export MESA_VK_WSI_PRESENT_MODE="relaxed" # [ "immediate" (no_sync), "mailbox" (
 # --------------------
 
 # Optiscaler
-#export PROTON_USE_OPTISCALER=1
+export PROTON_USE_OPTISCALER=1
 #export PROTON_OPTISCALER_NAME="d3d12.dll" # Defaults to Direct X11
 #export PROTON_OPTISCALER_CONFIG="Upscalers.Dx11Upscaler=xess;Upscalers.Dx12Upscaler=xess;UpscaleRatio.UpscaleRatioOverrideValue=1.7" # [ "fsr31", "dlss", "xess" ]
 
-export LOW_LATENCY_LAYER=1 # Low latency for Nvidia & AMD
-export DXVK_HDR=1
+#export LOW_LATENCY_LAYER=1 # Low latency for Nvidia & AMD
+
 #export PROTON_PREFER_SDL=1 # instead of steam input
 
 # DXVK
-export PROTON_DXVK_LOWLATENCY=1 # DXVK Low Latency fork
+export DXVK_HDR=1
+#export PROTON_DXVK_LOWLATENCY=1 # DXVK Low Latency fork
+#export DXVK_NVAPI_VKREFLEX=1
 #export PROTON_D7VK_DDRAW=1 # DirectX 7 or lower
 
+# Upgrades
 export PROTON_XESS_UPGRADE=1 # XeSS
 
-# Nvidia
 export PROTON_DLSS_UPGRADE="310.7.0" # DLSS [ 1, "310.7.0", "310.6.0", "310.5.3", "310.2.1", ]
-export DXVK_NVAPI_VKREFLEX=1
 
-# FSR
 export PROTON_FSR4_UPGRADE="4.1.0" # [ 1, "4.1.0", "4.0.3", "4.0.0", "4.0.2", "4.0.1" ]
 #export PROTON_FSR4_RDNA3_UPGRADE="4.0.2" # for RDNA3 gpus
 #export PROTON_FSR3_UPGRADE=1
@@ -103,8 +105,8 @@ export PROTON_FSR4_UPGRADE="4.1.0" # [ 1, "4.1.0", "4.0.3", "4.0.0", "4.0.2", "4
 
 # Async Shader Compilation ( Only use in Singleplayer Games )
 # Only Activates with gplasync (async dxvk build)
-export DXVK_ASYNC=1
-export VKD3D_CONFIG=async # Async shader compiling for Direct3D 12 games
+#export DXVK_ASYNC=1
+#export VKD3D_CONFIG=async # Async shader compiling for Direct3D 12 games
 
 # CPU/GPU Sync
 export WINEESYNC=1
@@ -116,8 +118,8 @@ export WINEFSYNC=1
 # ---------------------------
 
 # Wine
-#export WINEDLLOVERRIDES="winemenubuilder.exe=d" # Disable Desktop Menu Links
-#export WINE_LARGE_ADDRESS_AWARE=1 # Allow >2GB RAM in 32-bit mode
+export WINEDLLOVERRIDES="winemenubuilder.exe=d" # Disable Desktop Menu Links
+export WINE_LARGE_ADDRESS_AWARE=1 # Allow >2GB RAM in 32-bit mode
 #export WINEARCH=win64
 
 # Proton General
