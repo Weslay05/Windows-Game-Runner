@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Windows Game Executor v2.7.0
+# Windows Game Executor v2.7.3
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
@@ -12,7 +12,7 @@ ScNAME=$(basename "${BASH_SOURCE[0]%.sh}")
 # --- Versioning & Prefix ---
 # ---------------------------
 
-export PROTON_NAME="proton-cachyos-11.0_2026-07-03_slr-x86_64" # Case Sensitive
+export PROTON_NAME="proton-cachyos-11.0_2026-10-15_slr-x86_64" # Case Sensitive
 #export DXVK_NAME="github/dxvk/dxvk-3.0"
 #export VKD3D_NAME="vkd3d-proton-3.0.1"
 
@@ -51,10 +51,11 @@ export WINE_GECKO_CACHE_DIR="$WINEPREFIX/files/cache/gecko"
 # --- Display ---
 # ---------------
 
+# HDR (Needs DXVK_HDR)
 #export PROTON_ENABLE_WAYLAND=1
-
-# Doesn't always work
 #export PROTON_ENABLE_HDR=1
+
+# Nvidia
 #export ENABLE_HDR_WSI=1
 
 # HUD
