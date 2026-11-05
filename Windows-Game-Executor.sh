@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Windows Game Executor v2.8.3
+# Windows Game Executor v2.8.5
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
@@ -11,39 +11,38 @@ ScNAME=$(basename "${BASH_SOURCE[0]%.sh}")
 # --- IMPORTANT ---
 # -----------------
 
+export COMPABILITY_TOOLS_PATH="/media/SanDisk-btrfs/Volume/Games/.compatibilitytools.d"
+export WINEPREFIX_DIR="/media/SanDisk-btrfs/Volume/Games/wine-prefix"
+
+
+# ---------------------------
+
 RENDER_MODE="DEFAULT" # Options[ "HDR", "LOW_LATENCY", "DEFAULT", "SAFE/X11", "LEGACY" ]
 GPU_TYPE="OTHER" # Options[ "OTHER", "NVIDIA" ]
 
 OPTISCALER="ENABLE" # Options[ "ENABLE", "DISABLE" ]
 UPGRADE_AI_SAMPLER="TRUE" # Options[ "TRUE", "FALSE" ]
 
-export PROTON_NAME="proton-cachyos-11.0_2026-10-15_slr-x86_64" # Case Sensitive
-#export DXVK_NAME="github/dxvk/dxvk-3.0" # (Not that important)
-#export VKD3D_NAME="vkd3d-proton-3.0.1" # (Not that important)
+# Custom Proton
+export PROTON_NAME="proton-cachyos-11.0_2026-07-15_slr-x86_64" # Case Sensitive
+export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON_NAME"
 
-export WINEPREFIX_DIR="/media/SanDisk-btrfs/Volume/Games/wine-prefix"
-export COMPABILITY_TOOLS_PATH="/media/SanDisk-btrfs/Volume/Games/.compatibilitytools.d"
+# ---------------------------
 
 
-# ------------------------
-# --- Path Definitions ---
-# ------------------------
+# Custom DXVK
+#export CUSTOM_DXVK_NAME="github/dxvk/dxvk-3.0" # (Not that important)
+#export DXVK_OVERRIDE_PATH="$COMPABILITY_TOOLS_PATH/$DXVK_NAME" # For Umu/Lutris
 
-# Proton
-if [ -v $PROTON_NAME ]; then
-	export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON_NAME";
-fi
+# Custom VKD3D
+#export CUSTOM_VKD3D_NAME="vkd3d-proton-3.0.1" # (Not that important)
+#export DXVK_CUSTOM_DIR="$COMPABILITY_TOOLS_PATH/$DXVK_NAME" # For Proton
+#export VKD3D_PATH="$COMPABILITY_TOOLS_PATH/$VKD3D_NAME"
 
-# DXVK
-if [ -v $DXVK_NAME ]; then
-	export DXVK_OVERRIDE_PATH="$COMPABILITY_TOOLS_PATH/$DXVK_NAME"; # For Umu/Lutris
-	export DXVK_CUSTOM_DIR="$COMPABILITY_TOOLS_PATH/$DXVK_NAME"; # For Proton
-fi
 
-# VKD3D
-if [ -v $VKD3D_NAME ]; then
-	export VKD3D_PATH="$COMPABILITY_TOOLS_PATH/$VKD3D_NAME";
-fi
+# -----------------------------
+# --- More Path Definitions ---
+# -----------------------------
 
 # PATHS
 export GAME_PATH="$ScDIR/$ScNAME"
