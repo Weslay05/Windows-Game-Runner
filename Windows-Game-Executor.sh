@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 
-# Windows Game Executor v2.7.3
+# Windows Game Executor v2.8.3
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
 ScDIR=$(dirname "${BASH_SOURCE[0]}")
 ScNAME=$(basename "${BASH_SOURCE[0]%.sh}")
 
+# -----------------
+# --- IMPORTANT ---
+# -----------------
 
-# ---------------------------
-# --- Versioning & Prefix ---
-# ---------------------------
+RENDER_MODE="DEFAULT" # Options[ "HDR", "LOW_LATENCY", "DEFAULT", "SAFE/X11", "LEGACY" ]
+GPU_TYPE="OTHER" # Options[ "OTHER", "NVIDIA" ]
+
+OPTISCALER="ENABLE" # Options[ "ENABLE", "DISABLE" ]
+UPGRADE_AI_SAMPLER="TRUE" # Options[ "TRUE", "FALSE" ]
 
 export PROTON_NAME="proton-cachyos-11.0_2026-10-15_slr-x86_64" # Case Sensitive
-#export DXVK_NAME="github/dxvk/dxvk-3.0"
-#export VKD3D_NAME="vkd3d-proton-3.0.1"
-
+#export DXVK_NAME="github/dxvk/dxvk-3.0" # (Not that important)
+#export VKD3D_NAME="vkd3d-proton-3.0.1" # (Not that important)
 
 export WINEPREFIX_DIR="/media/SanDisk-btrfs/Volume/Games/wine-prefix"
 export COMPABILITY_TOOLS_PATH="/media/SanDisk-btrfs/Volume/Games/.compatibilitytools.d"
@@ -26,14 +30,20 @@ export COMPABILITY_TOOLS_PATH="/media/SanDisk-btrfs/Volume/Games/.compatibilityt
 # ------------------------
 
 # Proton
-export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON_NAME"
+if [ -v $PROTON_NAME ]; then
+	export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON_NAME";
+fi
 
 # DXVK
-#export DXVK_OVERRIDE_PATH="$COMPABILITY_TOOLS_PATH/$DXVK_NAME" # For Umu/Lutris
-#export DXVK_CUSTOM_DIR="$COMPABILITY_TOOLS_PATH/$DXVK_NAME" # For Proton
+if [ -v $DXVK_NAME ]; then
+	export DXVK_OVERRIDE_PATH="$COMPABILITY_TOOLS_PATH/$DXVK_NAME"; # For Umu/Lutris
+	export DXVK_CUSTOM_DIR="$COMPABILITY_TOOLS_PATH/$DXVK_NAME"; # For Proton
+fi
 
 # VKD3D
-#export VKD3D_PATH="$COMPABILITY_TOOLS_PATH/$VKD3D_NAME"
+if [ -v $VKD3D_NAME ]; then
+	export VKD3D_PATH="$COMPABILITY_TOOLS_PATH/$VKD3D_NAME";
+fi
 
 # PATHS
 export GAME_PATH="$ScDIR/$ScNAME"
@@ -51,12 +61,19 @@ export WINE_GECKO_CACHE_DIR="$WINEPREFIX/files/cache/gecko"
 # --- Display ---
 # ---------------
 
-# HDR (Needs DXVK_HDR)
-#export PROTON_ENABLE_WAYLAND=1
-#export PROTON_ENABLE_HDR=1
+if [ $RENDER_MODE = "SAFE/X11" ]; then
+	echo "--- X11 Mode, disabling WAYLAND PROTOCOL ---";
+else
+	echo "--- ENABLING WAYLAND Protocol ---";
+	export PROTON_ENABLE_WAYLAND=1; # Required for HDR to work
+fi
 
-# Nvidia
-#export ENABLE_HDR_WSI=1
+# Render modes
+if [ $RENDER_MODE = "HDR" ]; then
+	echo "--- ENABLING PROTON HDR ---";
+	export PROTON_ENABLE_HDR=1;
+	export ENABLE_HDR_WSI=1; # Vulkan HDR
+fi
 
 # HUD
 #export PROTON_DLSS_INDICATOR=1
@@ -76,35 +93,50 @@ export MESA_VK_WSI_PRESENT_MODE="relaxed" # [ "immediate" (no_sync), "mailbox" (
 # --------------------
 
 # Optiscaler
-export PROTON_USE_OPTISCALER=1
-#export PROTON_OPTISCALER_NAME="d3d12.dll" # Defaults to Direct X11
-#export PROTON_OPTISCALER_CONFIG="Upscalers.Dx11Upscaler=xess;Upscalers.Dx12Upscaler=xess;UpscaleRatio.UpscaleRatioOverrideValue=1.7" # [ "fsr31", "dlss", "xess" ]
 
-#export LOW_LATENCY_LAYER=1 # Low latency for Nvidia & AMD
+if [ $OPTISCALER = "ENABLE" ]; then
+	echo "--- ENABLING OPTISCALER ---";
+	export PROTON_USE_OPTISCALER=1;
+	#export PROTON_OPTISCALER_NAME="d3d12.dll"; # Defaults to Direct X11
+	#export PROTON_OPTISCALER_CONFIG="Upscalers.Dx11Upscaler=xess;Upscalers.Dx12Upscaler=xess;UpscaleRatio.UpscaleRatioOverrideValue=1.7"; # [ "fsr31", "dlss", "xess" ]
+fi
+
+#export LOW_LATENCY_LAYER=1 # Low latency Wrapper for Nvidia & AMD
 
 #export PROTON_PREFER_SDL=1 # instead of steam input
 
 # DXVK
-export DXVK_HDR=1
-#export PROTON_DXVK_LOWLATENCY=1 # DXVK Low Latency fork
-#export DXVK_NVAPI_VKREFLEX=1
-#export PROTON_D7VK_DDRAW=1 # DirectX 7 or lower
+if [ $RENDER_MODE = "HDR" ]; then
+	echo "--- ENABLING DXVK HDR ---";
+	export DXVK_HDR=1;
+elif [ $RENDER_MODE = "LOW_LATENCY" ]; then
+	if [ $GPU_TYPE = "NVIDIA" ]; then # DXVK Low Latency fork Nvidia
+		echo "--- Enabling NVIDIA Reflex DXVK ---";
+		export DXVK_NVAPI_VKREFLEX=1;
+	else
+		echo "--- Enabling Standard LOW_LATENCY DXVK ---";
+		export PROTON_DXVK_LOWLATENCY=1; # DXVK Low Latency fork
+	fi
+elif [ $RENDER_MODE = "LEGACY" ]; then
+	echo "--- ENABLING LEGACY support (DirectX 7 or lower) ---";
+	export PROTON_D7VK_DDRAW=1; # DirectX 7 or lower support
+fi
 
 # Upgrades
-export PROTON_XESS_UPGRADE=1 # XeSS
-
-export PROTON_DLSS_UPGRADE="310.7.0" # DLSS [ 1, "310.7.0", "310.6.0", "310.5.3", "310.2.1", ]
-
-export PROTON_FSR4_UPGRADE="4.1.0" # [ 1, "4.1.0", "4.0.3", "4.0.0", "4.0.2", "4.0.1" ]
-#export PROTON_FSR4_RDNA3_UPGRADE="4.0.2" # for RDNA3 gpus
-#export PROTON_FSR3_UPGRADE=1
-
+if [ $UPGRADE_AI_SAMPLER = "TRUE" ]; then
+	echo "--- UPGRADE XESS, DLSS, FSR4 ---";
+	export PROTON_XESS_UPGRADE=1; # XeSS
+	export PROTON_DLSS_UPGRADE="310.7.0"; # DLSS [ 1, "310.7.0", "310.6.0", "310.5.3", "310.2.1", ]
+	export PROTON_FSR4_UPGRADE="4.1.0"; # [ 1, "4.1.0", "4.0.3", "4.0.0", "4.0.2", "4.0.1" ]
+	#export PROTON_FSR4_RDNA3_UPGRADE="4.0.2" # for RDNA3 gpus (Might not even exist)
+	#export PROTON_FSR3_UPGRADE=1 # Might not even exist (Might not even exist)
+fi
 
 # -------------------
 # --- Performance ---
 # -------------------
 
-# Async Shader Compilation ( Only use in Singleplayer Games )
+# Async Shader Compilation ( Only use in Singleplayer Games ) (OFTEN UNSTABLE)
 # Only Activates with gplasync (async dxvk build)
 #export DXVK_ASYNC=1
 #export VKD3D_CONFIG=async # Async shader compiling for Direct3D 12 games
@@ -148,9 +180,15 @@ export DXVK_LOG_LEVEL=error
 #export PROTON_BATTLEYE_RUNTIME="$HOME/.local/share/lutris/runtime/battleye_runtime" # Battleye AntiCheat Support
 #export PROTON_EAC_RUNTIME="$HOME/.local/share/lutris/runtime/eac_runtime"           # Easy AntiCheat Support
 
-# ---
+if [ $RENDER_MODE = "HDR" ]; then echo "!!! MODE: HDR + WAYLAND !!!"; fi
+if [ $RENDER_MODE = "LOW_LATENCY" ]; then echo "!!! MODE: LOW_LATENCY + WAYLAND !!!"; fi
+if [ $RENDER_MODE = "DEFAULT" ]; then echo "!!! MODE: WAYLAND / Custom-DXVK: disabled !!!"; fi
+if [ $RENDER_MODE = "SAFE/X11" ]; then echo "!!! MODE: X11 !!!"; fi
+if [ $RENDER_MODE = "LEGACY" ]; then echo "!!! MODE: LEGACY + X11 / DirectX 7 or lower: supported !!!"; fi
 
-echo "Starting: ( $GAME_PATH )"
+echo "";
+echo "Starting: ($GAME_PATH)"
+echo "";
 
 umu-run "$GAME_PATH"
 #steam-run wine "$GAME_PATH"
