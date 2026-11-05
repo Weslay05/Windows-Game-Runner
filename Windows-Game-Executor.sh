@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-# Windows Game Executor v2.8.5
+# Windows Game Executor v3.0.0
 # WinePrefix is in Specified path as filename of script
 # The executable run is the Filename without .sh
 
@@ -26,6 +25,9 @@ UPGRADE_AI_SAMPLER="TRUE" # Options[ "TRUE", "FALSE" ]
 # Custom Proton
 export PROTON_NAME="proton-cachyos-11.0_2026-10-15_slr-x86_64" # Case Sensitive
 export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON_NAME"
+
+# Present Mode (Overwrite Games Present Mode)
+#export MESA_VK_WSI_PRESENT_MODE="immediate" # [ "immediate" (no_sync), "mailbox" (fast vsync), "fifo" (enforced vsync), "relaxed" ]
 
 # ---------------------------
 
@@ -77,10 +79,6 @@ fi
 # HUD
 #export PROTON_DLSS_INDICATOR=1
 #export DXVK_HUD="devinfo,memory,api,version,fps,opacity=0.8"
-
-# Display Mode
-export VK_PRESENT_MODE="fifo_relaxed" # [ "IMMEDIATE" (no_sync), "MAILBOX" (fast vsync) , "fifo" (enforced vsync), "fifo_relaxed", "SHARED_DEMAND_REFRESH", "SHARED_CONTINUOUS_REFRESH", "FIFO_LATEST_READY" ]
-export MESA_VK_WSI_PRESENT_MODE="relaxed" # [ "immediate" (no_sync), "mailbox" (fast vsync), "fifo" (enforced vsync), "relaxed" ]
 
 # Scaling
 #export WINE_FULLSCREEN_INTEGER_SCALING=1
