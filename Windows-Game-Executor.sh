@@ -192,4 +192,3 @@ echo "";
 
 umu-run "$GAME_PATH"
 #steam-run wine "$GAME_PATH"
-
