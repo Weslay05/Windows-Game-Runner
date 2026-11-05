@@ -24,7 +24,7 @@ OPTISCALER="ENABLE" # Options[ "ENABLE", "DISABLE" ]
 UPGRADE_AI_SAMPLER="TRUE" # Options[ "TRUE", "FALSE" ]
 
 # Custom Proton
-export PROTON_NAME="proton-cachyos-11.0_2026-07-15_slr-x86_64" # Case Sensitive
+export PROTON_NAME="proton-cachyos-11.0_2026-10-15_slr-x86_64" # Case Sensitive
 export PROTONPATH="$COMPABILITY_TOOLS_PATH/$PROTON_NAME"
 
 # ---------------------------
